@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Syne", sans-serif;
+  
+  --color-ig-purple: #833ab4;
+  --color-ig-pink: #fd1d1d;
+  --color-ig-orange: #fcb045;
+  --color-ig-yellow: #ffdc80;
+}
+
+@layer base {
+  body {
+    @apply bg-zinc-950 text-white antialiased;
+  }
+}
+
+.ig-gradient {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.ig-text-gradient {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.glass {
+  @apply bg-white/5 backdrop-blur-md border border-white/10;
+}
