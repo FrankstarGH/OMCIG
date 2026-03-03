@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { motion } from "motion/react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { 
   ShoppingBag, 
   MessageSquare, 
@@ -34,7 +35,7 @@ const Navbar = () => (
         <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
       </div>
       <a 
-        href="https://selar.com/5mc421p1h9" 
+        href="https://selar.com/7x66watz7l" 
         target="_blank" 
         className="ig-gradient px-6 py-2.5 rounded-full text-sm font-bold hover:scale-105 transition-transform shadow-lg shadow-ig-pink/20"
       >
@@ -66,7 +67,7 @@ const Hero = () => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="font-display text-5xl md:text-8xl font-extrabold leading-[1.1] mb-8"
+        className="font-sans text-5xl md:text-8xl font-black tracking-tighter leading-[1.1] mb-8"
       >
         Stop Taking Orders <br />
         <span className="ig-text-gradient">in Your Instagram DMs</span>
@@ -78,8 +79,7 @@ const Hero = () => (
         transition={{ delay: 0.2 }}
         className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-12 leading-relaxed"
       >
-        Get a professional checkout that works 24/7, scales infinitely, 
-        and turns your side hustle into a real business.
+        Get an ecommerce website that takes orders automatically
       </motion.p>
       
       <motion.div 
@@ -89,11 +89,11 @@ const Hero = () => (
         className="flex flex-col sm:flex-row items-center justify-center gap-4"
       >
         <a 
-          href="https://selar.com/5mc421p1h9" 
+          href="https://selar.com/7x66watz7l" 
           target="_blank"
           className="w-full sm:w-auto ig-gradient px-10 py-5 rounded-full text-lg font-bold flex items-center justify-center gap-2 hover:scale-105 transition-transform shadow-xl shadow-ig-pink/30"
         >
-          Make Payment Now <ArrowRight className="w-5 h-5" />
+          Order Now <ArrowRight className="w-5 h-5" />
         </a>
         <a 
           href="https://wa.me/233242779949" 
@@ -289,7 +289,7 @@ const Pricing = () => {
                 </ul>
                 
                 <a 
-                  href="https://selar.com/5mc421p1h9"
+                  href="https://selar.com/7x66watz7l"
                   target="_blank"
                   className={`w-full py-4 rounded-full font-bold text-center transition-all ${
                     plan.featured 
@@ -357,7 +357,7 @@ const Footer = () => (
 
 export default function App() {
   return (
-    <div className="font-sans">
+    <div className="font-sans bg-zinc-950 text-white min-h-screen">
       <Navbar />
       <Hero />
       <Problem />
@@ -374,11 +374,11 @@ export default function App() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a 
-              href="https://selar.com/5mc421p1h9" 
+              href="https://selar.com/7x66watz7l" 
               target="_blank"
               className="w-full sm:w-auto ig-gradient px-12 py-6 rounded-full text-xl font-bold hover:scale-105 transition-transform shadow-2xl shadow-ig-pink/40"
             >
-              Make Payment Now
+              Order Now
             </a>
             <a 
               href="https://wa.me/233242779949" 
