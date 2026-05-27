@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OMCGhana — UGC Video for Startups</title>
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #080810;
+      --dark: #0f0f1a;
+      --card: #13131f;
+      --border: rgba(255,255,255,0.07);
+      --orange: #ff6b35;
+      --orange-glow: rgba(255,107,53,0.18);
+      --white: #ffffff;
+      --grey: #9999b3;
+      --light: #e8e8f0;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img, video { max-width: 100%; display: block; }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(8,8,16,0.95), transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--orange); }
+    .nav-links { display: flex; gap: 36px; }
+    .nav-links a {
+      font-size: 0.875rem;
+      color: var(--grey);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: var(--orange);
+      color: var(--white) !important;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.875rem !important;
+      transition: opacity 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.85; color: var(--white) !important; }
+
+    /* ===== HERO ===== */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      text-align: center;
+    }
+    .hero-video-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.28;
+      filter: saturate(0.6);
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom,
+        rgba(8,8,16,0.3) 0%,
+        rgba(8,8,16,0.5) 60%,
+        rgba(8,8,16,1) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+      padding: 0 24px;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--orange-glow);
+      border: 1px solid rgba(255,107,53,0.3);
+      color: var(--orange);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--orange);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+    .hero-h1 {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+    .hero-h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--orange), #ff9f6b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--grey);
+      max-width: 540px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--orange);
+      color: var(--white);
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 32px rgba(255,107,53,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 48px rgba(255,107,53,0.5); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
+
+    /* ===== SOCIAL PROOF BAR ===== */
+    .proof-bar {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+    .proof-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--grey);
+      font-size: 0.9rem;
+    }
+    .proof-icon { font-size: 1.2rem; }
+    .proof-item strong { color: var(--white); }
+
+    /* ===== SECTION BASE ===== */
+    section { padding: 100px 60px; }
+    .section-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 16px;
+    }
+    .section-h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .section-sub {
+      color: var(--grey);
+      font-size: 1.05rem;
+      max-width: 520px;
+      line-height: 1.7;
+    }
+    .section-header { margin-bottom: 60px; }
+
+    /* ===== PORTFOLIO ===== */
+    #portfolio { background: var(--dark); }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .video-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .video-card:hover { transform: translateY(-6px); border-color: rgba(255,107,53,0.3); }
+    .video-card video {
+      width: 100%;
+      aspect-ratio: 9/16;
+      object-fit: cover;
+      display: block;
+      background: #0a0a14;
+    }
+    .video-card-info {
+      padding: 20px 22px;
+    }
+    .video-card-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 6px;
+    }
+    .video-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    .video-card-desc {
+      font-size: 0.85rem;
+      color: var(--grey);
+      line-height: 1.5;
+    }
+
+    /* ===== SERVICES ===== */
+    #services { background: var(--black); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .service-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 28px;
+      transition: border-color 0.2s;
+    }
+    .service-card:hover { border-color: rgba(255,107,53,0.25); }
+    .service-icon {
+      font-size: 2rem;
+      margin-bottom: 18px;
+    }
+    .service-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+    .service-desc {
+      font-size: 0.875rem;
+      color: var(--grey);
+      line-height: 1.6;
+    }
+
+    /* ===== HOW IT WORKS ===== */
+    #process { background: var(--dark); }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0;
+      position: relative;
+    }
+    .step {
+      padding: 36px 32px;
+      position: relative;
+    }
+    .step:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      right: -12px;
+      top: 40px;
+      color: var(--orange);
+      font-size: 1.2rem;
+      z-index: 1;
+    }
+    .step-number {
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--orange-glow);
+      line-height: 1;
+      margin-bottom: 16px;
+      -webkit-text-stroke: 1px var(--orange);
+    }
+    .step-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .step-desc {
+      font-size: 0.85rem;
+      color: var(--grey);
+      line-height: 1.6;
+    }
+
+    /* ===== PRICING ===== */
+    #pricing { background: var(--black); }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 860px;
+    }
+    .pricing-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 36px;
+      position: relative;
+      transition: transform 0.2s;
+    }
+    .pricing-card:hover { transform: translateY(-4px); }
+    .pricing-card.featured {
+      border-color: var(--orange);
+      background: linear-gradient(135deg, #15101a, #1a0f0a);
+    }
+    .pricing-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--orange);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+    .pricing-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+    .pricing-price {
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .pricing-price span {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--grey);
+    }
+    .pricing-desc {
+      color: var(--grey);
+      font-size: 0.875rem;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+    .pricing-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--light);
+    }
+    .pricing-features li:last-child { border-bottom: none; }
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--orange);
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+    .pricing-cta {
+      display: block;
+      text-align: center;
+      padding: 13px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .pricing-card:not(.featured) .pricing-cta {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--white);
+    }
+    .pricing-card:not(.featured) .pricing-cta:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+    .pricing-card.featured .pricing-cta {
+      background: var(--orange);
+      color: white;
+      box-shadow: 0 0 24px rgba(255,107,53,0.4);
+    }
+    .pricing-card.featured .pricing-cta:hover {
+      box-shadow: 0 0 40px rgba(255,107,53,0.6);
+      transform: translateY(-1px);
+    }
+
+    /* ===== CTA BANNER ===== */
+    #cta-banner {
+      padding: 80px 60px;
+      background: linear-gradient(135deg, #0f0a05, #100510);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    .cta-h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .cta-h2 em {
+      font-style: normal;
+      color: var(--orange);
+    }
+    .cta-sub {
+      color: var(--grey);
+      font-size: 1.05rem;
+      margin-bottom: 36px;
+    }
+
+    /* ===== CONTACT ===== */
+    #contact { background: var(--black); }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .contact-info p {
+      color: var(--grey);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+    .contact-email:hover { border-color: var(--orange); }
+    .contact-email .icon { font-size: 1.1rem; }
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group label { font-size: 0.8rem; font-weight: 600; color: var(--grey); letter-spacing: 0.05em; text-transform: uppercase; }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--white);
+      padding: 13px 16px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      resize: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--orange); }
+    .form-group select option { background: var(--card); }
+    .form-group textarea { min-height: 110px; }
+    .form-submit {
+      background: var(--orange);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      font-family: inherit;
+      box-shadow: 0 0 24px rgba(255,107,53,0.3);
+    }
+    .form-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      padding: 40px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-logo { font-size: 1.1rem; font-weight: 800; }
+    .footer-logo span { color: var(--orange); }
+    .footer-copy { color: var(--grey); font-size: 0.85rem; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { color: var(--grey); font-size: 0.85rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      section { padding: 70px 24px; }
+      .proof-bar { padding: 20px 24px; gap: 24px; }
+      .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+      .step:not(:last-child)::after { display: none; }
+      #cta-banner { padding: 60px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">OMC<span>Ghana</span></div>
+    <div class="nav-links">
+      <a href="#portfolio">Work</a>
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact" class="nav-cta">Get a Free Demo</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <video class="hero-video-bg" autoplay muted loop playsinline>
+      <source src="../uploads/Untitled design (6).mp4" type="video/mp4" />
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-tag">UGC Video for YC Startups</div>
+      <h1 class="hero-h1">
+        Video content that<br/><em>converts scrollers</em><br/>into customers
+      </h1>
+      <p class="hero-sub">
+        OMCGhana creates authentic, AI-powered UGC-style video ads for fast-growing startups. From script to final video — done for you.
+      </p>
+      <div class="hero-buttons">
+        <a href="#portfolio" class="btn-primary">Watch Our Work</a>
+        <a href="#contact" class="btn-secondary">Get a Free Demo →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROOF BAR -->
+  <div class="proof-bar">
+    <div class="proof-item"><span class="proof-icon">🚀</span><span>Built for <strong>YC-backed startups</strong></span></div>
+    <div class="proof-item"><span class="proof-icon">⚡</span><span><strong>72-hour</strong> turnaround</span></div>
+    <div class="proof-item"><span class="proof-icon">🎬</span><span><strong>30-second</strong> UGC-style ads</span></div>
+    <div class="proof-item"><span class="proof-icon">📱</span><span>TikTok · Reels · <strong>YouTube Shorts</strong></span></div>
+    <div class="proof-item"><span class="proof-icon">✅</span><span>First demo <strong>free</strong></span></div>
+  </div>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <div class="section-header">
+      <div class="section-tag">Portfolio</div>
+      <h2 class="section-h2">See what we create</h2>
+      <p class="section-sub">Real UGC-style video content made for apps, tools, and platforms that want to grow on social.</p>
+    </div>
+    <div class="portfolio-grid">
+      <div class="video-card">
+        <video controls playsinline preload="metadata">
+          <source src="../uploads/Untitled design (4).mp4" type="video/mp4" />
+        </video>
+        <div class="video-card-info">
+          <div class="video-card-label">UGC Ad</div>
+          <div class="video-card-title">Social Media Ad #1</div>
+          <div class="video-card-desc">Scroll-stopping UGC-style content built to drive installs and conversions for fast-growing apps.</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <video controls playsinline preload="metadata">
+          <source src="../uploads/Untitled design (5).mp4" type="video/mp4" />
+        </video>
+        <div class="video-card-info">
+          <div class="video-card-label">UGC Ad</div>
+          <div class="video-card-title">Social Media Ad #2</div>
+          <div class="video-card-desc">Native-feeling short video that shows your product the way users discover it organically.</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <video controls playsinline preload="metadata">
+          <source src="../uploads/Untitled design (6).mp4" type="video/mp4" />
+        </video>
+        <div class="video-card-info">
+          <div class="video-card-label">Product Promo</div>
+          <div class="video-card-title">App Demo Video</div>
+          <div class="video-card-desc">Hook-driven product demo designed for TikTok, Reels, and YouTube Shorts.</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <video controls playsinline preload="metadata">
+          <source src="../uploads/download.mp4" type="video/mp4" />
+        </video>
+        <div class="video-card-info">
+          <div class="video-card-label">Brand Content</div>
+          <div class="video-card-title">Brand Story Video</div>
+          <div class="video-card-desc">Authentic brand-first content that builds trust and drives top-of-funnel awareness.</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <video controls playsinline preload="metadata">
+          <source src="../uploads/download (1).mp4" type="video/mp4" />
+        </video>
+        <div class="video-card-info">
+          <div class="video-card-label">Campaign Ad</div>
+          <div class="video-card-title">Paid Social Creative</div>
+          <div class="video-card-desc">Performance-focused creative built for paid social campaigns — designed to stop the scroll and convert.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-header">
+      <div class="section-tag">Services</div>
+      <h2 class="section-h2">What we do for you</h2>
+      <p class="section-sub">End-to-end UGC video production. You focus on building — we handle the content.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">✍️</div>
+        <div class="service-title">Script & Strategy</div>
+        <div class="service-desc">We write scroll-stopping hooks, problem-aware scripts, and CTAs tailored to your product and audience. No briefs needed — just send us your app.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎬</div>
+        <div class="service-title">UGC Video Production</div>
+        <div class="service-desc">Authentic, native-style 30–60 second video ads that look organic on TikTok, Instagram Reels, and YouTube Shorts. AI-powered, founder-friendly.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔊</div>
+        <div class="service-title">Voiceover & Audio</div>
+        <div class="service-desc">AI-generated voiceovers that sound real. Multiple voice options — energetic, calm, conversational — matched to your brand tone.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📐</div>
+        <div class="service-title">Visual Design</div>
+        <div class="service-desc">Branded storyboard frames, text overlays, and motion graphics built in Canva for maximum impact. Every frame is optimised for mobile-first viewing.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📦</div>
+        <div class="service-title">Ready-to-Post Delivery</div>
+        <div class="service-desc">Receive your finished videos in 9:16 (vertical) and 16:9 (landscape) formats, ready to post directly with no additional editing required.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">♾️</div>
+        <div class="service-title">Monthly Content Bundles</div>
+        <div class="service-desc">Stay consistent with a monthly package — 4 videos per month at a fixed rate. Perfect for startups running paid ads or organic growth campaigns.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="process">
+    <div class="section-header">
+      <div class="section-tag">Process</div>
+      <h2 class="section-h2">How it works</h2>
+      <p class="section-sub">From first message to finished video in as little as 72 hours.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">01</div>
+        <div class="step-title">Send us your app</div>
+        <div class="step-desc">Drop your website link or app store URL. That's all we need to get started — no lengthy brief required.</div>
+      </div>
+      <div class="step">
+        <div class="step-number">02</div>
+        <div class="step-title">We write the script</div>
+        <div class="step-desc">Our team crafts a hook-driven script with a clear problem, solution, social proof, and CTA — tailored to your product.</div>
+      </div>
+      <div class="step">
+        <div class="step-number">03</div>
+        <div class="step-title">We produce the video</div>
+        <div class="step-desc">We build the visuals in Canva, add AI voiceover, and assemble the final video — optimised for vertical social media.</div>
+      </div>
+      <div class="step">
+        <div class="step-number">04</div>
+        <div class="step-title">You post & grow</div>
+        <div class="step-desc">Receive your video files ready to post. Watch your engagement, installs, and conversions go up.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="section-header">
+      <div class="section-tag">Pricing</div>
+      <h2 class="section-h2">Simple, transparent pricing</h2>
+      <p class="section-sub">No hidden fees. Pay per video or lock in a monthly bundle for consistency and savings.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-name">Starter</div>
+        <div class="pricing-price">$400 <span>/ video</span></div>
+        <div class="pricing-desc">Perfect for testing UGC content or producing a single campaign ad.</div>
+        <ul class="pricing-features">
+          <li>1 × 30–60 second UGC video</li>
+          <li>Custom script included</li>
+          <li>AI voiceover</li>
+          <li>Canva visual frames</li>
+          <li>9:16 vertical + 16:9 formats</li>
+          <li>72-hour turnaround</li>
+          <li>1 round of revisions</li>
+        </ul>
+        <a href="#contact" class="pricing-cta">Get Started</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-name">Content Bundle</div>
+        <div class="pricing-price">$1,200 <span>/ month</span></div>
+        <div class="pricing-desc">Consistent content every month. Built for startups running social or paid campaigns.</div>
+        <ul class="pricing-features">
+          <li>4 × UGC videos per month</li>
+          <li>All scripts included</li>
+          <li>AI voiceover on every video</li>
+          <li>Branded visual design</li>
+          <li>All formats delivered</li>
+          <li>Priority 48-hour turnaround</li>
+          <li>Unlimited revisions</li>
+          <li>Monthly strategy call</li>
+        </ul>
+        <a href="#contact" class="pricing-cta">Get a Free Demo First</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section id="cta-banner">
+    <h2 class="cta-h2">Not sure yet? <em>Get a free demo.</em></h2>
+    <p class="cta-sub">We'll make a 30-second UGC video for your product — no strings attached. If you love it, we talk next steps.</p>
+    <a href="#contact" class="btn-primary">Claim your free demo →</a>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header">
+      <div class="section-tag">Contact</div>
+      <h2 class="section-h2">Let's make your video</h2>
+    </div>
+    <div class="contact-inner">
+      <div class="contact-info">
+        <p>Drop us a message with your product link and we'll get back within 24 hours. First demo is always free — no pitch, no pressure.</p>
+        <a href="mailto:omcghanaonline@gmail.com" class="contact-email">
+          <span class="icon">✉️</span>
+          omcghanaonline@gmail.com
+        </a>
+      </div>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="Alex" required />
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Chen" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="you@startup.com" required />
+        </div>
+        <div class="form-group">
+          <label>Your Product / Website</label>
+          <input type="url" placeholder="https://yourapp.com" />
+        </div>
+        <div class="form-group">
+          <label>What do you need?</label>
+          <select>
+            <option value="">Select a service...</option>
+            <option>Free 30-second demo video</option>
+            <option>Starter — 1 video ($300–500)</option>
+            <option>Content Bundle — 4 videos/month</option>
+            <option>Just exploring</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Anything else?</label>
+          <textarea placeholder="Tell us about your app, your audience, or what you're trying to achieve..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Message →</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">OMC<span>Ghana</span></div>
+    <div class="footer-copy">© 2026 OMCGhana. AI-powered UGC video for startups.</div>
+    <div class="footer-links">
+      <a href="mailto:omcghanaonline@gmail.com">Email</a>
+      <a href="#portfolio">Work</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+  </footer>
+
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-submit');
+      const form = e.target;
+      const email = form.querySelector('input[type="email"]').value;
+      const name = form.querySelector('input[type="text"]').value;
+      const product = form.querySelector('input[type="url"]').value;
+      const service = form.querySelector('select').value;
+      const msg = form.querySelector('textarea').value;
+      const subject = encodeURIComponent(`OMCGhana Enquiry from ${name}`);
+      const body = encodeURIComponent(
+        `Name: ${name}\nEmail: ${email}\nProduct: ${product}\nService: ${service}\n\nMessage:\n${msg}`
+      );
+      window.location.href = `mailto:omcghanaonline@gmail.com?subject=${subject}&body=${body}`;
+      btn.textContent = 'Message sent ✓';
+      btn.style.background = '#22c55e';
+    }
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.style.opacity = '1';
+          el.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.video-card, .service-card, .step, .pricing-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
